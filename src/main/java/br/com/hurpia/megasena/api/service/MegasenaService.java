@@ -20,6 +20,10 @@ public class MegasenaService {
         return megasenaRepository.findUltimoSorteioEncerrado();
     }
 
+    public Optional<Megasena> getSorteioByNumero(int numero) {
+        return megasenaRepository.getSorteioByNumero(numero);
+    }
+
     public List<Megasena> getAllResults() {
         return megasenaRepository.findAll();
     }

@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/megasena")
@@ -29,7 +30,20 @@ public class MegasenaController {
         Optional<Megasena> sorteio = megasenaService.getLastActiveSorteio();
 
         return sorteio.map(s -> {
-            // Create a map with only the required fields
+            Map<String, Object> response = new HashMap<>();
+            response.put("nrSorteio", s.getNrSorteio());
+            response.put("dtSorteio", s.getDtSorteio());
+            response.put("dsSorteadosSorteio", s.getDsSorteadosSorteio());
+
+            return ResponseEntity.ok(response);
+        }).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/{numero}")
+    public ResponseEntity<?> getSorteioByNumero(@PathVariable int numero) {
+        Optional<Megasena> sorteio = megasenaService.getSorteioByNumero(numero);
+
+        return sorteio.map(s -> {
             Map<String, Object> response = new HashMap<>();
             response.put("nrSorteio", s.getNrSorteio());
             response.put("dtSorteio", s.getDtSorteio());
