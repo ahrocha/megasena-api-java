@@ -4,11 +4,20 @@ services:
   app:
     build: .
     container_name: megasena-app
-    ports:
-      - "80:80"
     env_file:
       - .env
     environment:
       SPRING_DATASOURCE_URL: "${DB_URL}"
       SPRING_DATASOURCE_USERNAME: "${DB_USER}"
       SPRING_DATASOURCE_PASSWORD: "${DB_PASSWORD}"
+    networks:
+      default:
+        ipv4_address: 172.22.0.2
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.22.0.0/24

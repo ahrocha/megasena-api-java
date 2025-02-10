@@ -6,9 +6,10 @@ WORKDIR /app
 
 # Copy the built application JAR into the container
 COPY target/*.jar app.jar
+COPY .env .env
 
 # Expose the application port
-EXPOSE 80
+EXPOSE 8080
 
 # Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
