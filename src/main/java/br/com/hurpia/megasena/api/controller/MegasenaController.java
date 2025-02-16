@@ -34,6 +34,8 @@ public class MegasenaController {
             response.put("nrSorteio", s.getNrSorteio());
             response.put("dtSorteio", s.getDtSorteio());
             response.put("dsSorteadosSorteio", s.getDsSorteadosSorteio());
+            response.put("next", null);
+            response.put("previous", s.getNrSorteio() - 1);
 
             return ResponseEntity.ok(response);
         }).orElseGet(() -> ResponseEntity.notFound().build());
@@ -48,6 +50,8 @@ public class MegasenaController {
             response.put("nrSorteio", s.getNrSorteio());
             response.put("dtSorteio", s.getDtSorteio());
             response.put("dsSorteadosSorteio", s.getDsSorteadosSorteio());
+            response.put("next", s.getNrSorteio() + 1);
+            response.put("previous", s.getNrSorteio() - 1);
 
             return ResponseEntity.ok(response);
         }).orElseGet(() -> ResponseEntity.notFound().build());
