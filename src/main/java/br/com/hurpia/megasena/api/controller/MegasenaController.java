@@ -1,12 +1,5 @@
 package br.com.hurpia.megasena.api.controller;
 
-import org.springframework.web.bind.annotation.RestController;
-
-import br.com.hurpia.megasena.api.model.Megasena;
-import br.com.hurpia.megasena.api.service.MegasenaService;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -14,6 +7,11 @@ import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.com.hurpia.megasena.api.model.Megasena;
+import br.com.hurpia.megasena.api.service.MegasenaService;
 
 @RestController
 @RequestMapping("/megasena")
@@ -43,11 +41,8 @@ public class MegasenaController {
 
     @GetMapping("/{numero}")
     public ResponseEntity<?> getSorteioByNumero(@PathVariable int numero) {
-        Megasena sorteio = megasenaService.getSorteioByNumero(numero);
+        Optional<Megasena> sorteio = megasenaService.getLastActiveSorteio();
 
-        if (sorteio.isEmpty()) {
-            return this.getLastSorteio();
-        }
         return sorteio.map(s -> {
             Map<String, Object> response = new HashMap<>();
             response.put("nrSorteio", s.getNrSorteio());
@@ -57,6 +52,6 @@ public class MegasenaController {
             response.put("previous", s.getNrSorteio() - 1);
 
             return ResponseEntity.ok(response);
-        });
+        }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
