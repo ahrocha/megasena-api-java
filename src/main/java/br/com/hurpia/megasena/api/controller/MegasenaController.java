@@ -42,11 +42,11 @@ public class MegasenaController {
     }
 
     @GetMapping("/{numero}")
-    public Optional<Object> getSorteioByNumero(@PathVariable int numero) {
+    public ResponseEntity<?> getSorteioByNumero(@PathVariable int numero) {
         Optional<Megasena> sorteio = megasenaService.getSorteioByNumero(numero);
 
         if (sorteio.isEmpty()) {
-            return Optional.of(this.getLastSorteio());
+            return this.getLastSorteio();
         }
         return sorteio.map(s -> {
             Map<String, Object> response = new HashMap<>();
