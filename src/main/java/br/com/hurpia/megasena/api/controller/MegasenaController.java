@@ -42,9 +42,12 @@ public class MegasenaController {
     }
 
     @GetMapping("/{numero}")
-    public ResponseEntity<?> getSorteioByNumero(@PathVariable int numero) {
+    public Optional<Object> getSorteioByNumero(@PathVariable int numero) {
         Optional<Megasena> sorteio = megasenaService.getSorteioByNumero(numero);
 
+        if (sorteio.isEmpty()) {
+            return Optional.of(this.getLastSorteio());
+        }
         return sorteio.map(s -> {
             Map<String, Object> response = new HashMap<>();
             response.put("nrSorteio", s.getNrSorteio());
@@ -54,6 +57,6 @@ public class MegasenaController {
             response.put("previous", s.getNrSorteio() - 1);
 
             return ResponseEntity.ok(response);
-        }).orElseGet(() -> ResponseEntity.notFound().build());
+        });
     }
 }
