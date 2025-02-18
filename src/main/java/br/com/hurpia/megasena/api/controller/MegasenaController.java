@@ -43,7 +43,7 @@ public class MegasenaController {
 
     @GetMapping("/{numero}")
     public ResponseEntity<?> getSorteioByNumero(@PathVariable int numero) {
-        Optional<Megasena> sorteio = megasenaService.getSorteioByNumero(numero);
+        Megasena sorteio = megasenaService.getSorteioByNumero(numero);
 
         if (sorteio.isEmpty()) {
             return this.getLastSorteio();
