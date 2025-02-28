@@ -23,6 +23,11 @@ public class MegasenaController {
         this.megasenaService = megasenaService;
     }
 
+    @GetMapping("")
+    public ResponseEntity<?> getAllSorteios() {
+        return ResponseEntity.ok(megasenaService.getAllResults());
+    }
+
     @GetMapping("/ultima")
     public ResponseEntity<?> getLastSorteio() {
         Optional<Megasena> sorteio = megasenaService.getLastActiveSorteio();
