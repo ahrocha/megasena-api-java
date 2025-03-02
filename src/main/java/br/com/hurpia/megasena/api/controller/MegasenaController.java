@@ -24,8 +24,8 @@ public class MegasenaController {
     }
 
     @GetMapping("")
-    public ResponseEntity<?> getAllSorteios() {
-        return ResponseEntity.ok(megasenaService.getAllResults());
+    public ResponseEntity<?> getAllByOrderByNumeroDesc() {
+        return ResponseEntity.ok(megasenaService.getAllByOrderByNumeroDesc());
     }
 
     @GetMapping("/ultima")
@@ -34,11 +34,11 @@ public class MegasenaController {
 
         return sorteio.map(s -> {
             Map<String, Object> response = new HashMap<>();
-            response.put("nrSorteio", s.getNrSorteio());
-            response.put("dtSorteio", s.getDtSorteio());
-            response.put("dsSorteadosSorteio", s.getDsSorteadosSorteio());
+            response.put("numero", s.getNumero());
+            response.put("data", s.getData());
+            response.put("sorteados", s.getSorteados());
             response.put("next", null);
-            response.put("previous", s.getNrSorteio() - 1);
+            response.put("previous", s.getNumero() - 1);
 
             return ResponseEntity.ok(response);
         }).orElseGet(() -> ResponseEntity.notFound().build());
@@ -50,11 +50,11 @@ public class MegasenaController {
 
         return sorteio.map(s -> {
             Map<String, Object> response = new HashMap<>();
-            response.put("nrSorteio", s.getNrSorteio());
-            response.put("dtSorteio", s.getDtSorteio());
-            response.put("dsSorteadosSorteio", s.getDsSorteadosSorteio());
-            response.put("next", s.getNrSorteio() + 1);
-            response.put("previous", s.getNrSorteio() - 1);
+            response.put("nrSorteio", s.getNumero());
+            response.put("dtSorteio", s.getData());
+            response.put("dsSorteadosSorteio", s.getSorteados());
+            response.put("next", s.getNumero() + 1);
+            response.put("previous", s.getNumero() - 1);
 
             return ResponseEntity.ok(response);
         }).orElseGet(() -> ResponseEntity.notFound().build());

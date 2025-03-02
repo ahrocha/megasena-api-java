@@ -1,83 +1,91 @@
 package br.com.hurpia.megasena.api.model;
 
-import jakarta.persistence.*;
 import java.util.Date;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+
 @Entity
-@Table(name = "tbSorteio")
+@Table(name = "sorteio")
 public class Megasena {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cdSorteio")
-    private Integer cdSorteio;
+    @Column(name = "id")
+    private Integer id;
 
-    @Column(name = "cdTipoSorteio", nullable = false)
-    private Integer cdTipoSorteio;
+    @Column(name = "tipo", nullable = false)
+    private Integer tipo;
 
-    @Column(name = "nrSorteio", nullable = false)
-    private Integer nrSorteio;
+    @Column(name = "numero", nullable = false)
+    private Integer numero;
 
-    @Column(name = "dtSorteio", nullable = false)
+    @Column(name = "data", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date dtSorteio;
+    private Date data;
 
-    @Column(name = "dsSorteadosSorteio", length = 130)
-    private String dsSorteadosSorteio;
+    @Column(name = "sorteados", length = 130)
+    private String sorteados;
 
-    @Column(name = "cdStatusSorteio", nullable = false)
-    private Integer cdStatusSorteio;
+    @Column(name = "status", nullable = false)
+    private Integer status;
 
     public Megasena() {
         // Default Constructor (Required by JPA)
     }
 
     // Getters and Setters
-    public Integer getCdSorteio() {
-        return cdSorteio;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCdSorteio(Integer cdSorteio) {
-        this.cdSorteio = cdSorteio;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public Integer getCdTipoSorteio() {
-        return cdTipoSorteio;
+    public Integer getTipo() {
+        return tipo;
     }
 
-    public void setCdTipoSorteio(Integer cdTipoSorteio) {
-        this.cdTipoSorteio = cdTipoSorteio;
+    public void setTipo(Integer tipo) {
+        this.tipo = tipo;
     }
 
-    public Integer getNrSorteio() {
-        return nrSorteio;
+    public Integer getNumero() {
+        return numero;
     }
 
-    public void setNrSorteio(Integer nrSorteio) {
-        this.nrSorteio = nrSorteio;
+    public void setNumero(Integer numero) {
+        this.numero = numero;
     }
 
-    public Date getDtSorteio() {
-        return dtSorteio;
+    public Date getData() {
+        return data;
     }
 
-    public void setDtSorteio(Date dtSorteio) {
-        this.dtSorteio = dtSorteio;
+    public void setData(Date data) {
+        this.data = data;
     }
 
-    public String getDsSorteadosSorteio() {
-        return dsSorteadosSorteio;
+    public String getSorteados() {
+        return sorteados;
     }
 
-    public void setDsSorteadosSorteio(String dsSorteadosSorteio) {
-        this.dsSorteadosSorteio = dsSorteadosSorteio;
+    public void setsorteados(String sorteados) {
+        this.sorteados = sorteados;
     }
 
-    public Integer getCdStatusSorteio() {
-        return cdStatusSorteio;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setCdStatusSorteio(Integer cdStatusSorteio) {
-        this.cdStatusSorteio = cdStatusSorteio;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

@@ -1,11 +1,12 @@
 package br.com.hurpia.megasena.api.service;
 
-import br.com.hurpia.megasena.api.model.Megasena;
-import br.com.hurpia.megasena.api.repository.MegasenaRepository;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import br.com.hurpia.megasena.api.model.Megasena;
+import br.com.hurpia.megasena.api.repository.MegasenaRepository;
 
 @Service
 public class MegasenaService {
@@ -22,6 +23,10 @@ public class MegasenaService {
 
     public Optional<Megasena> getSorteioByNumero(int numero) {
         return megasenaRepository.getSorteioByNumero(numero);
+    }
+
+    public List<Megasena> getAllByOrderByNumeroDesc() {
+        return megasenaRepository.findAllByOrderByNrSorteioDesc();
     }
 
     public List<Megasena> getAllResults() {
