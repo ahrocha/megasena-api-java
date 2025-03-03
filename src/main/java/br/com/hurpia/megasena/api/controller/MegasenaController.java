@@ -50,9 +50,9 @@ public class MegasenaController {
 
         return sorteio.map(s -> {
             Map<String, Object> response = new HashMap<>();
-            response.put("nrSorteio", s.getNumero());
-            response.put("dtSorteio", s.getData());
-            response.put("dsSorteadosSorteio", s.getSorteados());
+            response.put("numero", s.getNumero());
+            response.put("data", s.getData());
+            response.put("sorteados", s.getSorteados());
             response.put("next", s.getNumero() + 1);
             response.put("previous", s.getNumero() - 1);
 
