@@ -46,11 +46,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         boolean corsEnabled = Boolean.parseBoolean(System.getenv().getOrDefault("CORS_ENABLED", "true"));
-        if (corsEnabled) {
-            http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
-        }
+
         http
             .csrf(csrf -> csrf.disable())
+            .cors(cors -> {
+                if (corsEnabled) {
+                    cors.configurationSource(corsConfigurationSource());
+                }
+            })
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/register", "/auth/login").permitAll()
                 .requestMatchers("/megasena/**").permitAll()
