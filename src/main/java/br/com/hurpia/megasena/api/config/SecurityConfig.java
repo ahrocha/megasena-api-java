@@ -2,7 +2,6 @@ package br.com.hurpia.megasena.api.config;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,9 +31,6 @@ public class SecurityConfig {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
-    @Value("${cors.allowed-origins}")
-    private List<String> allowedOrigins;
-
     @Bean
     public AuthenticationManager authenticationManager() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -45,15 +41,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        boolean corsEnabled = Boolean.parseBoolean(System.getenv().getOrDefault("CORS_ENABLED", "true"));
 
         http
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
-            .cors(cors -> {
-                if (corsEnabled) {
-                    cors.configurationSource(corsConfigurationSource());
-                }
-            })
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/register", "/auth/login").permitAll()
                 .requestMatchers("/megasena/**").permitAll()
@@ -72,8 +63,10 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+        String allowedOriginsEnv = System.getenv().getOrDefault("CORS_ALLOWED_ORIGINS", "http://localhost:3000,https://megasena.hurpia.com.br");
+
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(allowedOrigins);
+        config.setAllowedOriginPatterns(List.of(allowedOriginsEnv.split(",")));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         config.setAllowCredentials(true);
