@@ -45,8 +45,11 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        boolean corsEnabled = Boolean.parseBoolean(System.getenv().getOrDefault("CORS_ENABLED", "true"));
+        if (corsEnabled) {
+            http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
+        }
         http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/register", "/auth/login").permitAll()
