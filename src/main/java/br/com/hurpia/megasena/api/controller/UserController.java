@@ -1,10 +1,8 @@
 package br.com.hurpia.megasena.api.controller;
 
-import java.util.Optional;
-
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,17 +10,26 @@ import br.com.hurpia.megasena.api.model.User;
 import br.com.hurpia.megasena.api.repository.UserRepository;
 
 @RestController
-@RequestMapping("/me")
+@RequestMapping("/users")
 public class UserController {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping
-    public Optional<User> getAuthenticatedUser(@AuthenticationPrincipal UserDetails userDetails) {
-        return userRepository.findByEmail(userDetails.getUsername());
+    @PostMapping
+    public User newUser(@RequestBody User newUser) {
+        try {
+            newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+            return userRepository.save(newUser);
+        } catch (Exception e) {
+            return null;
+        }
+        
     }
+
 }

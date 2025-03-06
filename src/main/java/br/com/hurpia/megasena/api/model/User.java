@@ -60,7 +60,6 @@ public class User {
         // Default Constructor (Required by JPA)
     }
 
-    // Getters and Setters
     public Integer getId() {
         return id;
     }
